@@ -1,0 +1,221 @@
+<div class="wrapper text-sm" *ngIf="isAuth">
+    <nav class="main-header navbar navbar-expand bg-info bg-gray bg-navy bg-dark bg-light bg-white navbar-light ">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i
+        ></a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+                    <i class="fas fa-search"></i>
+                </a>
+                <div class="navbar-search-block">
+                    <form class="form-inline">
+                        <div class="input-group input-group-sm">
+                            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" />
+                            <div class="input-group-append">
+                                <button class="btn btn-navbar" type="submit">
+                  <i class="fas fa-search"></i>
+                </button>
+                                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                  <i class="fas fa-times"></i>
+                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+                    <i class="fas fa-th-large"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <button class="btn btn-danger btn-block" type="button" (click)="logOut()">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- sidebar -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <a href="#" class="brand-link"> <img src="./elite.png" alt="./elite.png" class="brand-image  elevation-3" style="opacity: .8; width: 80; height: 80;"> <span class="brand-text font-weight-light"> RafTools</span>
+        </a>
+        <div class="sidebar">
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="info">
+                    <a routerLink="users" routerLinkActive="active" class="d-block">
+                        <div class="user-avatar">
+                            <!-- <div class="avatar-letter">{{ user?.username?.charAt(0)?.toUpperCase() }}</div> -->
+                            <div class="username">{{ user?.username }}</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="form-inline">
+                <div class="input-group" data-widget="sidebar-search">
+                    <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search" />
+                    <div class="input-group-append">
+                        <button class="btn btn-sidebar">
+              <i class="fas fa-search fa-fw"></i>
+            </button>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="mt-2">
+                <ul id="test" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item menu-open" *ngIf="user?.role?.role=='Admin'">
+                        <a class="nav-link active">
+                            <i class="nav-icon fas fa-table"></i>
+                            <p>
+                                Managment
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a routerLink="users" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Users Managment</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a routerLink="group" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Group Mangment</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a routerLink="modules" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Module Mangment</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li *ngFor="let m of user?.user_group?.module_groups" class="nav-item" [ngClass]="m.isOpen ? 'nav-item menu-open':'nav-item'">
+                        <a class="nav-link" (click)="toggleModuleGroup(m)">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                {{m.moduleName}}
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview" *ngIf="m.isOpen">
+                            <li *ngFor="let sub of m.list_sub_modules" class="nav-item" [ngClass]="sub.isOpen ? 'nav-item menu-open':'nav-item'">
+                                <a class="nav-link" (click)="toggleSubModule(sub)">
+                                    <p>
+                                        {{sub.subModuleName}}
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li *ngFor="let func of sub.functions" class="nav-item">
+                                        <a [routerLink]="['/function/charts', func.id]" routerLinkActive="active menu-open" class="nav-link">
+                                            <i class="nav-icon fas fa-chart-pie"></i>
+                                            <p>{{func.functionName}}</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-danger btn-block" type="button" (click)="logOut()">Logout</button>
+            </div>
+        </div>
+    </aside>
+
+    <div class="content-wrapper" style="padding: 15px">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <div [ngSwitch]="currentPath">
+                            <h1 class="m-0" *ngSwitchCase="'modules'">Module Mangment</h1>
+                            <h1 class="m-0" *ngSwitchCase="'users'">User Mangment</h1>
+                            <h1 class="m-0" *ngSwitchCase="'group'">Group Mangment</h1>
+                            <h1 class="m-0" *ngSwitchCase="'charts/:id'">Function Reports</h1>
+                            <h1 class="m-0" *ngSwitchDefault>Home</h1>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right" [ngSwitch]="currentPath">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active" *ngSwitchCase="'modules'">Module Mangment</li>
+                            <li class="breadcrumb-item active" *ngSwitchCase="'users'">User Mangment</li>
+                            <li class="breadcrumb-item active" *ngSwitchCase="'group'">Group Mangment</li>
+                            <h1 class="breadcrumb-item active" *ngSwitchCase="'function/charts/:id'">Function Reports</h1>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+    <!-- Filters -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <div class="filter-container" style="margin: 20px;">
+            <h5>Filter Report</h5>
+            <hr class="mb-2">
+            <div class="form-group">
+                <label for="selectedFilter">Filter By:</label>
+                <select id="selectedFilter" class="form-control" [(ngModel)]="selectedFilter">
+                    <option [value]="filterType.Hour">Hour</option>
+                    <option [value]="filterType.Day">Day</option>
+                    <option [value]="filterType.Month">Month</option>
+                    <option [value]="filterType.Year">Year</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="startDate">Start Date:</label>
+                <input id="startDate" class="form-control" type="date" [(ngModel)]="startDate">
+            </div>
+            <div class="form-group">
+                <label for="endDate">End Date:</label>
+                <input id="endDate" class="form-control" type="date" [(ngModel)]="endDate">
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" [checked]="isVaration" (change)="isVaration = !isVaration" id="variation">
+                <label class="form-check-label" for="variation">Include Variation</label>
+            </div>
+            <button class="btn btn-primary" (click)="updateFilters()">Apply Filters</button>
+        </div>
+        <!-- <div cdkDropList class="example-list" (cdkDropListDropped)="onDrop($event)">
+            <div class="example-box" *ngFor="let report of reports" cdkDrag>{{report.name}}</div>
+          </div> -->
+    </aside>
+
+
+
+
+
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2010-2023
+      <a href="http://elite-business.net">Elite Business</a>.</strong
+    >
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block"><b>Version</b> 2.5.0</div>
+  </footer>
+</div>
+
+<div *ngIf="!isAuth">
+    <app-login></app-login>
+</div>

@@ -1,0 +1,34 @@
+<div class="container">
+    <div *ngFor="let chart of chartOptions;index as i" class="chart-wrapper">
+        <highcharts-chart [Highcharts]="highcharts" [options]="chart" class="chart"></highcharts-chart>
+        <div class="button-container">
+            <button mat-raised-button color="primary" (click)="removeFromDashboard(chartData[i].id_report)">Remove from Dashboard</button>
+        </div>
+    </div>
+</div>
+
+<!-- <script>
+    function myconfig() {
+        this.chart.style = {
+            fontFamily: 'Times New Roman',
+            width: "100%",
+            fontSize: '10px'
+        }, this.chart.backgroundColor = {
+            backgroundColor: [52, 58, 64, 255]
+        }, this.chart.plotBackgroundColor = {
+            linearGradient: [0, 0, 500, 500],
+            stops: [
+                [0, 'rgb(255, 255, 255)'],
+                [1, 'rgb(200, 200, 255)']
+            ]
+        }, this.tooltip = {
+            valueDecimals: 0
+
+        }, this.credits = {
+            enabled: false
+        }, this.lang = {
+            backgroundColor: [52, 58, 64, 255],
+            thousandsSep:   '.'
+        }
+    }
+</script> -->

@@ -1,0 +1,18 @@
+<ng-container *ngIf="!showTable">
+    <div *ngFor="let chart of chartOptions;index as i" class="chart-wrapper">
+        <highcharts-chart [Highcharts]="highcharts" [options]="chart" class="chart"></highcharts-chart>
+        <div class="button-container">
+            <button mat-raised-button color="primary" (click)="addToDashboard(chartData[i].id_report)">Add To Dashboard</button>
+            <mat-form-field>
+                <mat-label>Select chart type</mat-label>
+                <mat-select (selectionChange)="updateChartType(i, $event.value)">
+                    <mat-option *ngFor="let type of highchartsTypes" [value]="type">{{type.label}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+        <div cdkDropList class="example-list" (cdkDropListDropped)="onDrop($event)">
+            <div class="example-box" *ngFor="let report of reports" cdkDrag>{{report.name}}</div>
+          </div>
+    </div>
+</ng-container>
